@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, ForeignKey, create_engine, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 
@@ -21,7 +21,7 @@ class Saskaita(Base):
     __tablename__ = "accounts"
     id = Column(Integer, primary_key=True)
     iban = Column("Saskaita", String)
-    balansas = Column("Balansas", Integer)
+    balansas = Column("Balansas", Float)
     name = Column("Pavadinimas", String)
     # ForeignKey veda į lentelės pavadinimą
     zmogus_id = Column("zmogus_id", Integer, ForeignKey("zmogus.id"))
