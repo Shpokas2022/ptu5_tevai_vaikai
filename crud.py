@@ -2,9 +2,15 @@ from sqlalchemy.orm import sessionmaker
 from modelis import engine, Tevas, Vaikas
 
 session = sessionmaker(bind=engine)()
+# abstrakti funkcija
+def create_object(object_class, **kwargs):
+    obj = object_class(**kwargs)
+    session.add(obj)
+    session.commit()
+    return obj
 
-def create_tevas(vardas, pavarde):
-    tevas = Tevas(vardas=vardas, pavarde=pavarde)
+def create_tevas(argas1, argas2):
+    tevas = Tevas(vardas=argas1, pavarde=argas2)
     session.add(tevas)
     session.commit()
     return tevas
