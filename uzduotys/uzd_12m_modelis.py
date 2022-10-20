@@ -21,7 +21,7 @@ class Saskaita(Base):
     __tablename__ = "accounts"
     id = Column(Integer, primary_key=True)
     iban = Column("Saskaita", String)
-    balansas = Column("Balansas", String)
+    balansas = Column("Balansas", Integer)
     name = Column("Pavadinimas", String)
     # ForeignKey veda į lentelės pavadinimą
     zmogus_id = Column("zmogus_id", Integer, ForeignKey("zmogus.id"))
