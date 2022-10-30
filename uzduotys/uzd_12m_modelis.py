@@ -25,7 +25,7 @@ class Saskaita(Base):
     name = Column("Pavadinimas", String)
     # ForeignKey veda į lentelės pavadinimą
     zmogus_id = Column("zmogus_id", Integer, ForeignKey("zmogus.id"))
-    bank_id = Column("bank_id", Integer, ForeignKey('bank.id')) 
+    bank_id = Column("bank_id", Integer, ForeignKey("bank.id")) 
 # Relationship veda į objekto pavadinimą
     zmogus = relationship("Zmogus", back_populates="accounts")
     bank = relationship("Bankas", back_populates="accounts")
