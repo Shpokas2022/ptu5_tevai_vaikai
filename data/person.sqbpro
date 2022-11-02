@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Lenovo/CodeAcademy/ptu5/ptu5_intro_kursas/db/person.db" readonly="0" foreign_keys="" case_sensitive_like="" temp_store="" wal_autocheckpoint="" synchronous=""/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1276"/><column_width id="4" width="0"/></tab_structure><tab_browse><current_table name="0,0:"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">-- išrenkame unikalius gender
+SELECT DISTINCT gender FROM person;
+-- Ištraukiame tik lytį
+SELECT gender FROM person;
+-- Where užklausos tikslinimas
+SELECT * FROM person WHERE gender=&quot;Female&quot;;
+-- sąlygose naudojamos datos
+SELECT * FROM person WHERE date_of_birth &gt; date('1992-10-11');
+-- loginės salygos
+SELECT * FROM person WHERE date_of_birth &gt; date('1994-10-11') AND gender=&quot;Female&quot;;
+--rūšiavimas
+SELECT * FROM person WHERE gender = &quot;Female&quot; ORDER BY date_of_birth DESC;
+-- rūšiavimas pagal kelis stulpelius
+SELECT * FROM person ORDER BY gender, last_name;
+-- grupavimas
+SELECT gender, count(*) FROM person GROUP BY gender;
+
+SELECT gender, count(*), min(date_of_birth), max(date_of birth)FROM person GROUP BY gender;
+-- grupavimas , išreiškiant reikiamus duomenis
+SELECT gender, count(*) AS &quot;count&quot;, min(date_of_birth) AS oldest, max(date_of_birth) as youngest from person GROUP BY gender;
+</sql><sql name="SQL 2">SELECT
+	*
+FROM
+	person
+GROUP BY
+	last_name,
+	first_name
+HAVING
+	gender=&quot;Male&quot;;
+	
+SELECT * FROM person
+GROUP BY
+	last_name,
+	first_name
+HAVING
+	date_of_birth
+		BETWEEN
+			date('1964-01-01')
+		AND
+			date('2001-01-01');</sql><sql name="SQL 3">-- SELECT * FROM person LIMIT 1
+-- Duomenų įterpimas
+INSERT INTO person 
+	(first_name, last_name, email, date_of_birth, gender, company)
+VALUES (
+	&quot;Justina&quot;, &quot;Zymonaite&quot;, &quot;justina@gmail.com&quot;, datetime('2000-01-02 04:30:00'), &quot;Female&quot;, &quot;Ziedu Valdovas&quot; 
+);
+</sql><sql name="SQL 4">UPDATE person SET date_of_birth = datetime('1990-06-09 12:15:12') WHERE first_name= &quot;Justina&quot;;</sql><sql name="SQL 5">-- Masinis redagavimas
+-- SELECT * FROM person WHERE gender=&quot;Female&quot; AND date_of_birth&gt;date('1997-01-01')
+UPDATE person SET company=&quot;Middle of Nowhere oy&quot; WHERE gender=&quot;Female&quot; and date_of_birth&gt;date('1997-01-01')
+</sql><sql name="SQL 6">-- SELECT * FROM person WHERE NOT company = &quot;Middle of Nowhere oy&quot;;
+DELETE FROM person WHERE NOT company = &quot;Middle of Nowhere oy&quot;;
+SELECT * FROM person;</sql><sql name="SQL 7">-- Ištrina visus duomenis
+DELETE FOR person;
+-- Ištrina duomenis ir lentelės struktūrą
+DROP TABLE person
+
+SELECT * FROM person</sql><current_tab id="2"/></tab_sql></sqlb_project>

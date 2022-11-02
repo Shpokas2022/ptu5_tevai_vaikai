@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Lenovo/CodeAcademy/ptu5/ptu5_intro_kursas/db/darbuotojai3.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="3379"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,11:mainDARBUOTOJAS"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="DARBUOTOJAS" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="52"/><column index="2" value="83"/><column index="3" value="106"/><column index="4" value="154"/><column index="5" value="124"/><column index="6" value="117"/><column index="7" value="219"/><column index="8" value="84"/><column index="9" value="120"/><column index="10" value="142"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="PROJEKTAS" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="52"/><column index="2" value="142"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="SKYRIUS" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="52"/><column index="2" value="136"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sqlite_sequence" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="123"/><column index="2" value="52"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">-- Išrinkite darbuotojų vardus ir pavardes kartu su projekto pavadinimu, 
+--kuriame jie dirba.
+SELECT * FROM DARBUOTOJAS;
+SELECT * FROM PROJEKTAS;
+SELECT DARBUOTOJAS.VARDAS, DARBUOTOJAS.PAVARDĖ, PROJEKTAS.PAVADINIMAS 
+	FROM DARBUOTOJAS, PROJEKTAS 
+	WHERE DARBUOTOJAS.PROJEKTAS_ID = PROJEKTAS.ID;</sql><sql name="SQL 2">-- Išsirinkite darbuotojų dirbančių projekte Galerija vardus, pavardes ir projekto pavadinimą.
+SELECT DARBUOTOJAS.VARDAS, DARBUOTOJAS.PAVARDĖ, PROJEKTAS.PAVADINIMAS 
+	FROM DARBUOTOJAS, PROJEKTAS
+	WHERE DARBUOTOJAS.PROJEKTAS_ID = PROJEKTAS.ID AND PROJEKTAS.PAVADINIMAS = &quot;Galerija&quot;;</sql><sql name="SQL 3">-- Išrinkite visus projekto Projektų valdymas vykdytojus dirbančius Pardavimų skyriuje.
+SELECT DARBUOTOJAS.VARDAS, DARBUOTOJAS.PAVARDĖ, PROJEKTAS.PAVADINIMAS AS &quot;Projekto pavadinimas&quot;, SKYRIUS.PAVADINIMAS AS &quot;Skyrius&quot;
+	FROM DARBUOTOJAS, PROJEKTAS, SKYRIUS
+	WHERE DARBUOTOJAS.PROJEKTAS_ID = PROJEKTAS.ID AND DARBUOTOJAS.SKYRIUS_ID = SKYRIUS.ID
+	AND PROJEKTAS.PAVADINIMAS = &quot;Projektų valdymas&quot; AND SKYRIUS.PAVADINIMAS = &quot;Pardavimų&quot;;
+</sql><sql name="SQL 4">-- Išrinkite visas moteris, dirbančias projekte Projektų valdymas ir išveskite į ekraną jų vardus, 
+-- pavardes ir projekto pavadinimą.
+SELECT DARBUOTOJAS.VARDAS, DARBUOTOJAS.PAVARDĖ, DARBUOTOJAS.ASMENS_KODAS, PROJEKTAS.PAVADINIMAS AS &quot;Projekto pavadinimas&quot;
+	FROM DARBUOTOJAS
+	JOIN PROJEKTAS ON DARBUOTOJAS.PROJEKTAS_ID = PROJEKTAS.ID
+	--WHERE DARBUOTOJAS.ASMENS_KODAS=&quot;4%&quot;;
+	--WHERE PROJEKTAS.PAVADINIMAS = &quot;Projektų valdymas&quot; AND DARBUOTOJAS.ASMENS_KODAS=&quot;4%&quot; ;
+	WHERE PROJEKTAS.PAVADINIMAS = &quot;Projektų valdymas&quot;;
+	--OR DARBUOTOJAS.ASMENS_KODAS = &quot;6%&quot;);
+	</sql><sql name="SQL 5">-- Išrinkite skyrių pavadinimus su juose dirbančių darbuotojų skaičiumi.
+SELECT SKYRIUS.PAVADINIMAS, count(*) AS count
+	FROM DARBUOTOJAS
+	JOIN SKYRIUS
+	ON DARBUOTOJAS.SKYRIUS_ID = SKYRIUS.ID
+	GROUP BY SKYRIUS.PAVADINIMAS</sql><sql name="SQL 6">-- Apribokite #5 užklausos rezultatą taip, kad rodytų tik tuos skyrius kur dirba bent 5 darbuotojai.
+SELECT SKYRIUS.PAVADINIMAS, count(*) AS count
+	FROM DARBUOTOJAS
+	JOIN SKYRIUS
+	ON DARBUOTOJAS.SKYRIUS_ID = SKYRIUS.ID
+	GROUP BY SKYRIUS.PAVADINIMAS
+	HAVING count(*) &gt;= 5;</sql><sql name="SQL 7">-- Išrinkite darbuotojus (vardus, pavardes, pareigas) kartu su skyrių, kuriuose jie dirba pavadinimais, 
+-- tačiau nesančius tų skyrių vadovais.
+SELECT DARBUOTOJAS.VARDAS, DARBUOTOJAS.PAVARDĖ, DARBUOTOJAS.PAREIGOS, SKYRIUS.PAVADINIMAS 
+	FROM DARBUOTOJAS
+	JOIN SKYRIUS ON SKYRIUS_ID = SKYRIUS.ID = DARBUOTOJAS.SKYRIUS_ID 
+--	WHERE NOT PAREIGOS=&quot;Vadovas&quot;
+	GROUP BY DARBUOTOJAS.PAVARDĖ
+	HAVING NOT DARBUOTOJAS.PAREIGOS = &quot;Vadovas&quot;
+	
+</sql><sql name="SQL 8">--Sukurkite naują įrašą lentelėje “DARBUOTOJAS” (asmens kodas: 38807117896, vardas: 
+--Pranas, pavardė:Logis, Dirba nuo: 2009-11-12, visa kita - Null)
+</sql><sql name="SQL 9">-- Išrinkite darbuotojų vardus, pavardes ir skyriaus pavadinimą. Rodykite, net ir tuos darbuotojus, 
+-- kurie nedirba jokiame skyriuje (skyriaus pavadinimą pasiimkite iš lentelės SKYRIUS).
+</sql><sql name="SQL 10">-- 1# punkto užklausą pataisykite taip, kad rodytų tik tuos vardus ir projektų pavadinimus 
+-- kuriuose dirba daugiau nei 4 darbuotojai.</sql><sql name="SQL 11">-- Naujame stulpeyje parodyti kiekvieno darbuotojo bazinio atlyginimo ir priedų sumą.
+</sql><sql name="SQL 12">-- Parodyti bendrą atlyginimų, priedų sumą, vidutinį, maksimalų, minimalų atlyginimą.
+</sql><current_tab id="11"/></tab_sql></sqlb_project>
